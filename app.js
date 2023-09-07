@@ -10,11 +10,16 @@ const signupDetails = require('./routes/signupORlogin');
 // creating an instance of an Express application
 const app = express();
 
-app.use(cors());
+//to allow cross origin request
+app.use(
+    cors({
+        origin: "*",
+    })
+)
 app.use(bodyparser.json());
 app.use(signupDetails);
 
-sequelize.sync({force:true}) //{force:true}
+sequelize.sync() //{force:true}
 .then(()=>{
     app.listen(process.env.PORT,()=>{
         console.log('server running successfully');
