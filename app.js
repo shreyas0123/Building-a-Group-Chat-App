@@ -5,7 +5,11 @@ const sequelize = require('./util/database');
 
 require("dotenv").config(); // Load environment variables from .env file
 
-const signupDetails = require('./routes/signupORlogin');
+const signupORloginDetails = require('./routes/signupORlogin');
+const forgotpassword = require('./routes/forgotpassword');
+
+const User = require('./models/signup');
+const Forgotpassword = require('./models/forgotpassword');
 
 // creating an instance of an Express application
 const app = express();
@@ -17,7 +21,13 @@ app.use(
     })
 )
 app.use(bodyparser.json());
-app.use(signupDetails);
+app.use(signupORloginDetails);
+app.use(forgotpassword);
+
+//ForgotPasswordRequests would have Many to One relationship with User table as Single User can generate multiple forgot password requests
+//single user can have multiple password but one password belongs to one particular user only
+User.hasMany(Forgotpassword);
+Forgotpassword.belongsTo(User);
 
 sequelize.sync() //{force:true}
 .then(()=>{
