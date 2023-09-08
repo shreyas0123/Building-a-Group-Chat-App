@@ -4,6 +4,6 @@ const add = require('../controller/singupORlogin');
 
 routes.post('/signup',add.signup);
 
-//routes.post('/login',add.login)
+routes.post('/login',add.login)
 
 module.exports = routes;

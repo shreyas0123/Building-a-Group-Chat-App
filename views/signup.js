@@ -19,7 +19,7 @@ async function signup(event){
 
         if(response){
           console.log('response from addmethod:',response);
-          //window.location.href = "./login.html" //redirecting user to login page if response was successful
+          window.location.href = "./login.html" //redirecting user to login page if response was successful
             
         }else {
             throw new error('Failed to login');
