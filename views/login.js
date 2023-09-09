@@ -20,7 +20,7 @@ async function saveToCloudStoarage(event) {
       //now onward when you make an request from the front end to the server along with request token also included in the headers
       //so that backend will identify who is logged in, if i logged in backend will comes to know that shreyas loggedin
       //backend will provide me my expense details
-      window.location.href = "./expensetracker.html"   //using anchor tag after login redirecting user to the page expensetracker.html
+      window.location.href="./chat.html"   //using anchor tag after login redirecting user to the page expensetracker.html
   
     } catch (error) {
       const errorMessage = error.message || 'An error occured';
