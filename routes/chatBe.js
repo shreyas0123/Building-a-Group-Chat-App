@@ -4,6 +4,8 @@ const middleware=require("../middleware/auth")
 
 const routes=express.Router()
 
-routes.post("/message",middleware.decryptToken,userMsg.userMessage)
+routes.post("/message",middleware.decryptToken,userMsg.userMessage);
+
+routes.get("/showMessage",userMsg.showMessage);
 
 module.exports=routes
