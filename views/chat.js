@@ -5,8 +5,9 @@ window.addEventListener("DOMContentLoaded", async () => {
     try {
         const response = await axios.get("http://localhost:3000/chat/showMessage")
         const showData = response.data.allData;
-        for (let i = 0; i < showData.length; i++) {
-            showChatOnScreen(showData[i].message)
+        for (let i = showData.length-10; i < showData.length; i++) { //This code iterates through the last 10 chat messages 
+            localStorage.setItem(showData[i].id,showData[i].message);
+            showChatOnScreen(showData[i].id);
         }
 
     } catch (err) {
@@ -14,8 +15,15 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 })
 
-async function showChatOnScreen(msg) {
+async function showChatOnScreen(id,postmsg) {
     try {
+        if(postmsg){
+            let recent = id - 10;
+            localStorage.removeItem(recent);
+            localStorage.setItem(id,postmsg)
+        }
+        const msg = localStorage.getItem(id);
+
         const parent = document.getElementById("allmessages")
         const child = `</li class="text-white">${msg}</li><br>`
         parent.innerHTML = parent.innerHTML + child
@@ -37,8 +45,8 @@ async function sendChat(e) {
         const data = await axios.post("http://localhost:3000/chat/message", obj, {
             headers: { "Authorization": getToken }
         })
-        
-        showChatOnScreen(data.data.data.message); //trying access message from nested object
+        console.log(data);
+        showChatOnScreen(data.data.data.id,data.data.data.message); //trying access message from nested object
         //if i use data.message or data.data.message and when i add the new message on screen undefined will get print. If i refresh the page then only added new message will be displayed on screen
         //if i use data.data.data.message and try to add new message even though without efreshing the page newly added message will be showed on screen
 } catch (err) {
