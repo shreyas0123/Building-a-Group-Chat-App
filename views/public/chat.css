@@ -38,3 +38,27 @@ ul{
     color:white;
     text-align: left;
 }
+
+#myGroups{
+    color: white;
+    margin-top: 10px;
+    text-align: center;
+}
+
+hr{
+    background-color: rgb(176, 243, 243);
+}
+
+.flexible{
+    display: grid;
+ }
+
+ #newGroup{
+    background-color: rgb(246, 77, 77);
+    color: white;
+    padding: 5px;
+}
+
+button:hover{
+    background-color: red;
+}

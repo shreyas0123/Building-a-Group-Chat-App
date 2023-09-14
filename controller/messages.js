@@ -4,17 +4,16 @@ const userdb=require("../models/signup");
 const sequelize = require('../util/database');
 
 exports.userMessage=async(req,res)=>{
-    const t = await sequelize.transaction();
     try{
         const userMsg=req.body.chat
+        const groupId= req.body.groupId
         const data=await messagedb.create({
          message:userMsg,
-         userId:req.user.id
-        },{ transaction: t })
-        await t.commit();
-        res.json({data:data})
+         userId:req.user.id,
+         groupId:groupId
+        })
+       res.json({data:data})
     }catch(err){
-        await t.rollback();
         console.log("error in BE message",err)
         res,json({Error:err})
     }
@@ -23,7 +22,8 @@ exports.userMessage=async(req,res)=>{
 
 exports.showMessage=async(req,res)=>{
     try{
-        const data=await messagedb.findAll()
+        const groupid =req.header("Authorization")
+        const data=await messagedb.findAll({where:{groupId:groupid}})
         res.json({allData:data})
     }catch(err){
         console.log("error in showing message on the screen",err)
