@@ -8,4 +8,12 @@ routes.post("/message",middleware.decryptToken,userMsg.userMessage);
 
 routes.get("/showMessage",userMsg.showMessage);
 
+routes.get("/allUsers",userMsg.getAllUsers)
+
+routes.post("/addToGroup",userMsg.addToGroup)
+
+routes.get("/getUsers",middleware.decryptToken,userMsg.getpreferedUsers)
+
+routes.post("/removeMember",userMsg.removeMember)
+
 module.exports=routes
