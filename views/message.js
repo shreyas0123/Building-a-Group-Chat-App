@@ -14,36 +14,34 @@ function parseJwt (token) {
     return JSON.parse(jsonPayload);
 }
 
-// page load
-window.addEventListener("DOMContentLoaded", async () => {
-    try{
-        const groupId = localStorage.getItem("groupId");
-        const response = await axios.get("http://localhost:3000/chat/showMessage", {
-            headers: { "Authorization": groupId }
-        });
+//page load
+window.addEventListener("DOMContentLoaded",async()=>{
+   try{
+        const groupId=localStorage.getItem("groupId")
+        const response=await axios.get("http://localhost:3000/chat/showMessage",{headers:{"Authorization":groupId}})
 
-        const showData = response.data.allData;
-        if(showData && showData.length > 0){
-            if(showData.length <= 10){
-                for(let i=0;i<showData.length;i++) {
-                    localStorage.setItem(showData[i].id,showData[i].message);
-                    showChatOnScreen(showData[i].id);
-                }
-            }else{
-                for(let i=showData.length-10;i<showData.length;i++){
-                    localStorage.setItem(showData[i].id,showData[i].message);
-                    showChatOnScreen(showData[i].id);
-                }
-            }
+        const showData=response.data.allData;
+    
+        if(showData.length<=10){
+            for(let i=0;i<10;i++){        
+                localStorage.setItem(showData[i].id,showData[i].message)     
+                showChatOnScreen(showData[i].id,showData[i].userName)
+            } 
+        } else{
+            for(let i=showData.length-10;i<showData.length;i++){        
+                localStorage.setItem(showData[i].id,showData[i].message)     
+                showChatOnScreen(showData[i].id,showData[i].userName)   
         }
-    }catch(err){
-        console.log("dom loading error in messages", err);
     }
-});
+   
+   }catch(err){
+    console.log("dom loading error in messages",err)
+   }
+})
 
 
 //show the chats on the screen
-async function showChatOnScreen(id,postMsg){
+async function showChatOnScreen(id,name,postMsg){
     try{
        
        if(postMsg){
@@ -53,7 +51,7 @@ async function showChatOnScreen(id,postMsg){
         window.location.reload()
        }
        const msg=localStorage.getItem(id)
-       const child=`</li class="text-white">${msg}</li><br>`
+       const child=`<li class="text-black"><span class="text-info">${name}</span><br>${msg}</li>`
        parent.innerHTML=parent.innerHTML+child
       
     }catch(err){
@@ -69,14 +67,15 @@ async function sendChat(e){
         const groupId=localStorage.getItem("groupId")  
         const obj={
             chat:chat.value,
-            groupId:groupId
+            groupId:groupId,
+            
         }
         const getToken=localStorage.getItem("token")
         const data=await axios.post("http://localhost:3000/chat/message",obj,{
             headers:{"Authorization":getToken}
         })
        console.log(data)
-        showChatOnScreen(data.data.data.id,data.data.data.message)
+        showChatOnScreen(data.data.data.id,data.data.data.userName,data.data.data.message)
     }catch(err){
         console.log("error in snding message",err)
     }
@@ -135,8 +134,7 @@ const members=document.getElementById("alreadyMember")
         
 
       const adminDetails= response.data.isAdmin
-      console.log("admin details--.",adminDetails)
-      
+    
       members.innerHTML=""
      const adminArray=[]
       adminDetails.forEach((ele)=>{
@@ -188,13 +186,14 @@ const members=document.getElementById("alreadyMember")
    for(let i=0;i<adminAccess.length;i++){
     if(adminAccess[i]===decodeToken.userId){
         for(let i=0;i<membersArray.length;i++){
-            if(membersArray[i]===decodeToken.userId){
-                const child=`<li>${users[membersArray[i]-1].name}</li><br>`
-                members.innerHTML+=child 
+            if(membersArray[i]!==decodeToken.userId){
+                const child=`<li id="${users[membersArray[i]-1].id}">${users[membersArray[i]-1].name}
+                <button onclick="removeMember(${users[membersArray[i]-1].id})" class="btn btn-danger btn-sm" style="float:right">remove</button></li><br>`
+                members.innerHTML+=child  
+                
             }else{  
-            const child=`<li id="${users[membersArray[i]-1].id}">${users[membersArray[i]-1].name}
-            <button onclick="removeMember(${users[membersArray[i]-1].id})" class="btn btn-danger btn-sm" style="float:right">remove</button></li><br>`
-            members.innerHTML+=child  
+                const child=`<li>${users[membersArray[i]-1].name} <span style="float:right;color:green">admin<span></li><br>`
+                members.innerHTML+=child 
             }   
          }
     }else{

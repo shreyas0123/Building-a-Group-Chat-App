@@ -13,18 +13,33 @@ h2{
 
 .chats{
     
-    background-repeat: no-repeat;
-    background-size: contain;
-    border-radius: 20px;
     text-align: center;
     margin-bottom: 10px;
     padding: 5px;
 }
 
+#logout{
+    float: right;
+    background-image: url('../images/logout.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 10px;
+    margin-top: 3px;
+    padding: 5px;
+    width: 45px;
+    height: 45px;
+}
+
+#createGroup2{
+    margin-top: 2px;
+    text-align: center;
+}
+
 main{
     display: flex;
-    position: absolute;
+    position: sticky; /* The CSS position: sticky; property is used to create an element that behaves like both a position: relative; and a position: fixed; element depending on the user's scroll position. */
     bottom: 0;
+    margin-top: 500px;
     width: 100%;
     height: 2.5rem;  
 }
@@ -35,8 +50,16 @@ input[type="submit"] {
 }
 
 #allmessages{
-    color:white;
+    background-color:rgb(105, 96, 52);
+    color: rgb(243, 238, 238);
     text-align: left;
+    height: 50px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+#allmessages{
+    list-style-type: none; /*is used to remove the default list-style (usually bullets or numbers) from an HTML list with the ID "allmessages*/
 }
 
 #myGroups{
@@ -64,18 +87,25 @@ hr{
  }
 
  #newGroup{
-    background-color: rgb(246, 77, 77);
+    background-color: rgba(47, 220, 82, 0.819);  /* In the RGBA color model, the "a" stands for "alpha," and it represents the opacity or transparency of the color. The alpha value is a number between 0 (completely transparent) and 1 (completely opaque).*/
     color: white;
-    padding: 5px;
+    padding: 10px;
+    float: right;
+    border-radius: 20px;
 }
 
-button:hover{
-    background-color: red;
+#newGroup:hover{
+    background-color: rgb(30, 255, 0);
 }
 
 #manage{
     margin-top: 7px;
-    width: 100%;
+    background-image: url("../images/membersnew.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    float: right;
+    width: 45px;
+    height: 45px;
 }
 
 #showMemebrs{

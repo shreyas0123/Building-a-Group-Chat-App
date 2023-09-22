@@ -51,10 +51,12 @@ document.getElementById("newGroup").onclick=async()=>{
          const inputBox=document.createElement("input")
          inputBox.type="text"
          inputBox.id="groupNameFirst"
+         inputBox.setAttribute("class","form-control")
          inputBox.placeholder="Type group name"
          const button=document.createElement("button")
          text=document.createTextNode("create")
          button.id="createButton"
+         button.setAttribute("class","btn btn-success rounded-pill")
          button.appendChild(text)
          const parent1=document.getElementById("createGroup1")
          const parent2=document.getElementById("createGroup2")
@@ -76,6 +78,8 @@ document.getElementById("newGroup").onclick=async()=>{
              headers:{"Authorization":getToken}
          })
              getAllGroupNames(response)
+             inputBox.style.display="none"
+             button.style.display="none"
              }catch(err){
                  console.log("error in create button",err)
              }
@@ -84,3 +88,8 @@ document.getElementById("newGroup").onclick=async()=>{
      console.log("error in new group",err)
     }
  }
+
+ //logout from groups
+document.getElementById("logout").onclick=()=>{
+    window.location.href="./login.html"
+}

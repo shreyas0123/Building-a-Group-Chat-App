@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyparser = require('body-parser');
 const sequelize = require('./util/database');
+const cron=require("node-cron") //Cron is a tool that allows you to execute something on a schedule.
 
 require("dotenv").config(); // Load environment variables from .env file
 
@@ -15,6 +16,7 @@ const Forgotpassword = require('./models/forgotpassword');
 const message=require("./models/message");
 const groupdb=require("./models/groups");
 const usergroupdb=require("./models/usergroup");
+const archeivedb=require('./models/archeivechat')
 
 // creating an instance of an Express application
 const app = express();
@@ -55,3 +57,19 @@ sequelize.sync() //{force:true}
 .catch((error)=>{
     console.log('error while connecting to database',error);
 })
+
+cron.schedule("0 9 * * *",async()=>{
+    const response=await message.findAll()
+    for(let i=0;i<response.length;i++){
+     const data=await archeivedb.create({
+         message:response[i].dataValues.message,
+         userId:response[i].dataValues.userId,
+         groupId:response[i].dataValues.groupId,
+         userName:response[i].dataValues.userName
+     })
+    await message.destroy({where:{id:response[i].dataValues.id}})
+    }
+ 
+ },{
+     timezone:'Asia/Kolkata'
+ })

@@ -8,10 +8,16 @@ exports.userMessage=async(req,res)=>{
     try{
         const userMsg=req.body.chat
         const groupId= req.body.groupId
+
+        if(userMsg===""){
+            return res.json({succes:false,messsage:"message field empty"})
+        }
+
         const data=await messagedb.create({
          message:userMsg,
          userId:req.user.id,
-         groupId:groupId
+         groupId:groupId,
+         userName:req.user.name
         })
        res.json({data:data})
     }catch(err){
